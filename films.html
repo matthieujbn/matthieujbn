@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LA BIBLE</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+    <div class="file-input">
+        <input type="file" id="fileInput" accept="video/*" style="display: none">
+    </div>
+
+    <div class="container">
+        <h1>Liste des Films</h1>
+        <div class="form-container">
+            <div class="input-row">
+                <input type="text" id="film-input" placeholder="Ajouter un film">
+            </div>
+            <div class="input-row">
+                <input type="text" id="director-input" placeholder="Réalisateur">
+            </div>
+            <ul id="director-suggestion-container" class="suggestion-container"></ul>
+            <div class="input-row">
+                <input type="text" id="year-input" placeholder="Année de sortie">
+                <div class="button-container">
+                    <button class="add-btn" onclick="addFilm()">Ajouter</button>
+                    <button class="search-btn" onclick="openSearchModal()">Rechercher</button>
+                    <button class="delete-btn" onclick="deleteAllFilms()">Supprimer tous les films</button>
+                </div>
+            </div>
+            <div id="error-message"></div>
+        </div>
+        <ul id="film-list"></ul>
+    </div>
+    
+
+    <div id="infoModal" class="modal">
+        <div class="poster-content" id="infoModal-poster-container" style="display: none;">
+             <video id="infoModal-videoPlayer"></video>
+        </div>
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeInfoModal()">&times;</span>
+            <div id="infoModal-film-name-container">
+                <h1 id="infoModal-film-name"></h1>
+            </div>
+            <div id="infoModal-block-1">
+                <div class="infoModal-container" id="infoModal-film-info-container">
+                    <p id="infoModal-film-duration-type-country"></p>
+                    <p id="infoModal-film-year"></p>
+                    <p id="infoModal-film-director"></p>
+                    <p id="infoModal-film-actors"></p>
+                    <p id="infoModal-film-cinematographers"></p>
+                    <p id="infoModal-film-editors"></p>
+                    <p id="infoModal-film-musicians"></p>
+                    <button class="add-link-button" id="add-poster-button" onclick="editFilm()" style="display: none;">⚙️</button>
+                </div>
+                <div class="infoModal-container" id="infoModal-film-rate-container">
+                    <button class="rate-button" onmouseenter="colorHover(1)" onmouseleave="setRateButton()" onclick="colorButton(1)"></button>
+                    <button class="rate-button" onmouseenter="colorHover(2)" onmouseleave="setRateButton()" onclick="colorButton(2)"></button>
+                    <button class="rate-button" onmouseenter="colorHover(3)" onmouseleave="setRateButton()" onclick="colorButton(3)"></button>
+                    <button class="rate-button" onmouseenter="colorHover(4)" onmouseleave="setRateButton()" onclick="colorButton(4)"></button>
+                </div>
+            </div>
+            
+            <h3>Thèmes :</h3>
+            <ul id="infoModal-film-themes-list"></ul>
+            <div id="infoModal-error-message" style="color: red; margin-top: 10px;"></div>
+            <button class="edit-btn" onclick="editFilm()">Modifier</button>
+            <button class="add-theme-btn" onclick="openAddThemeModal()">Ajouter un thème</button>
+            <button class="delete-btn" onclick="deleteFilm()">Supprimer</button>
+        </div>
+    </div>
+
+    <div id="searchModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeSearchModal()">&times;</span>
+            <h2>Recherche de film</h2>
+            <input type="text" id="search-film-input" placeholder="Entrez le nom du film...">
+            <ul id="search-film-suggestion-container" class="suggestion-container"></ul>
+            <button class="search-btn" onclick="search()">Rechercher</button>
+        </div>
+        <!-- <div class="suggestion-container"> 
+            <ul id="search-suggestion-list" class="suggestion-list"></ul>
+        </div> -->
+    </div>
+
+    <!-- Modale d'édition -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2 id="editModal-film-name"></h2>
+            <div class="edit-container">
+                <p class="edit-p" id="editModal-film-year">Année de sortie :</p>
+                <input type="text" id="editModal-film-year-input" placeholder="Année">
+            </div>
+            <div class="edit-container">
+                <p class="edit-p" id="editModal-film-director">Réalisation :</p>
+                <div class="editModal-input-container">
+                    <input type="text" id="editModal-film-director-input" placeholder="Réalisateur">
+                    <ul id="editModal-director-suggestion-container" class="suggestion-container"></ul>
+                </div>
+            </div>
+            <div class="edit-container">
+                <p class="edit-p-list" id="editModal-film-actors"></p>
+                <div class="editModal-input-container">
+                    <input type="text" id="editModal-film-actors-input" placeholder="Ajouter un acteur">
+                    <ul id="editModal-actors-suggestion-container" class="suggestion-container"></ul>
+                </div>
+                <button class="editModal-add-element" onclick="addActor()">+</button>
+            </div>
+            <div class="edit-container">
+                <p class="edit-p-list" id="editModal-film-cinematographers"></p>
+                <div class="editModal-input-container">
+                    <input type="text" id="editModal-film-cinematographers-input" placeholder="Ajouter un directeur de la photographie">
+                    <ul id="editModal-cinematographers-suggestion-container" class="suggestion-container"></ul>
+                </div>
+                <button class="editModal-add-element" onclick="addCinematographer()">+</button>
+            </div>
+            <div class="edit-container">
+                <p class="edit-p-list" id="editModal-film-editors"></p>
+                <div class="editModal-input-container">
+                    <input type="text" id="editModal-film-editors-input" placeholder="Ajouter un monteur">
+                    <ul id="editModal-editors-suggestion-container" class="suggestion-container"></ul>
+                </div>
+                <button class="editModal-add-element" onclick="addEditor()">+</button>
+            </div>
+            <div class="edit-container">
+                <p class="edit-p-list" id="editModal-film-musicians"></p>
+                <div class="editModal-input-container">
+                    <input type="text" id="editModal-film-musicians-input" placeholder="Ajouter un musicien">
+                    <ul id="editModal-musicians-suggestion-container" class="suggestion-container"></ul>
+                </div>
+                <button class="editModal-add-element" onclick="addMusician()">+</button>
+            </div>
+            <div class="edit-container">
+                <p class="edit-p-list" id="editModal-film-types"></p>
+                <div class="editModal-input-container">
+                    <input type="text" id="editModal-film-types-input" placeholder="Ajouter un type">
+                    <ul id="editModal-types-suggestion-container" class="suggestion-container"></ul>
+                </div>
+                <button class="editModal-add-element" onclick="addType()">+</button>
+            </div>
+            <div class="edit-container">
+                <p class="edit-p-list" id="editModal-film-countries"></p>
+                <div class="editModal-input-container">
+                    <input type="text" id="editModal-film-countries-input" placeholder="Ajouter un pays">
+                    <ul id="editModal-countries-suggestion-container" class="suggestion-container"></ul>
+                </div>
+                <button class="editModal-add-element" onclick="addCountry()">+</button>
+            </div>
+            <div class="edit-container">
+                <p class="edit-p">Durée :</p>
+                <input type="text" id="editModal-film-duration-input" placeholder="Durée du film">
+            </div>
+            <div id="editModal-button-container">
+                <div id="editModal-general-button-container">
+                    <button id="save-edit-btn" onclick="saveEdit()">Enregistrer</button>
+                    <button class="search-btn" onclick="closeEditModal()">Annuler</button>
+                </div>
+                <div id="editModal-links-container">
+                    <button class="add-link-button" id="add-poster-button" onclick="removeLinks()">🗑️</button>
+                    <button class="add-link-button" id="add-poster-button" onclick="addMusicLink()">🖼️</button>
+                    <button class="add-link-button" id="add-video-button" onclick="addVideoLink()">🎥</button>
+                    <button class="add-link-button" id="add-music-button" onclick="addMusicLink()">🎵</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="directorModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeDirectorModal()">&times;</span>
+            <h2 id="directorModal-name"></h2>
+            <ul id="directorModal-film-list"></ul>
+        </div>
+    </div>
+
+    <div id="cinematographerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeCinematographerModal()">&times;</span>
+            <h2 id="cinematographerModal-name"></h2>
+            <ul id="cinematographerModal-film-list"></ul>
+        </div>
+    </div>
+
+    <div id="actorModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeActorModal()">&times;</span>
+            <h2 id="actorModal-name"></h2>
+            <ul id="actorModal-film-list"></ul>
+        </div>
+    </div>
+
+    <div id="musicianModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeMusicianModal()">&times;</span>
+            <h2 id="musicianModal-name"></h2>
+            <ul id="musicianModal-film-list"></ul>
+        </div>
+    </div>
+
+    <div id="editorModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEditorModal()">&times;</span>
+            <h2 id="editorModal-name"></h2>
+            <ul id="editorModal-film-list"></ul>
+        </div>
+    </div>
+
+    <div id="typeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeTypeModal()">&times;</span>
+            <h2 id="typeModal-name"></h2>
+            <ul id="typeModal-film-list"></ul>
+        </div>
+    </div>
+
+    <div id="countryModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeCountryModal()">&times;</span>
+            <h2 id="countryModal-name"></h2>
+            <ul id="countryModal-film-list"></ul>
+        </div>
+    </div>
+
+    <div id="yearModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeYearModal()">&times;</span>
+            <h2 id="yearModal-name"></h2>
+            <ul id="yearModal-film-list"></ul>
+        </div>
+    </div>
+
+    <div id="addThemeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAddThemeModal()">&times;</span>
+            <h2>Ajouter un thème</h2>
+            <input type="text" id="theme-name-input" placeholder="Thème">
+            <ul id="theme-suggestion-container" class="suggestion-container"></ul>
+            <textarea class="themeInfo-input" type="text" id="theme-info-input" placeholder="Informations sur le thème"></textarea>
+            <button class="add-theme-btn" onclick="addTheme()">Ajouter</button>
+        </div>
+    </div>
+
+    <div id="themeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeThemeModal()">&times;</span>
+            
+            <h2 id="themeModal-title"></h2>
+            <ul id="themeModal-film-list"></ul>
+        </div>
+    </div>
+
+    <div id="themeInfoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeThemeInfoModal()">&times;</span>
+            <h2 id="themeInfoModal-title"></h2>
+            <p id="themeInfoModal-info"></p>
+            <button class="edit-btn" onclick="editTheme()">Modifier</button>
+        </div>
+    </div>
+
+    <div id="editThemeInfoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEditThemeInfoModal()">&times;</span>
+            <h2 id="editThemeInfoModal-title"></h2>
+            <textarea id="editThemeInfoModal-info"></textarea>
+            <button class="edit-btn" onclick="saveEditTheme()">Modifier</button>
+            <button class="search-btn" onclick="closeEditThemeInfoModal()">Annuler</button>
+        </div>
+    </div>
+
+    <script src="films.js"></script>
+    <script src="modals.js"></script>
+    <script src="suggestion.js"></script>
+    <script src="listelement.js"></script>
+    <script src="rate.js"></script>
+    <script src="videoposter.js"></script>
+</body>
+</html>

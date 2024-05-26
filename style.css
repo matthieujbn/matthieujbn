@@ -1,0 +1,565 @@
+/* Général */
+body {
+    background-image: url('C:/Users/matth/Documents/Cinéma/Test/3/cannes.jpg');
+    background-opacity: 0.5; /* Couleur de fond semi-transparente */
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1300px;
+    margin: auto;
+    padding: 20px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.input-row:last-child {
+    display: flex;
+}
+
+.input-row input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #333;
+    color: #e0e0e0;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    transition: border-color 0.3s;
+}
+
+.button-container {
+    display: block;
+    justify-items: center; 
+}
+
+.button-container button {
+    margin: 0 5px; /* Ajoute une marge de 5px entre chaque bouton */
+}
+
+/* En-tête */
+h1 {
+    text-align: left;
+    color: #ffffff;
+    margin-bottom: 10px;
+    font-family: 'Teko', sans-serif;
+    font-size: 50px;
+    line-height: 0.7;
+}
+
+/* Champs de saisie */
+input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #333;
+    color: #e0e0e0;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #4caf50;
+    outline: none;
+}
+
+input#year-input {
+    width: 150px; /* Largeur spécifique pour l'input de l'année */
+}
+
+textarea {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #333;
+    color: #e0e0e0;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    transition: border-color 0.3s;
+    resize: none; /* Permettre le redimensionnement vertical seulement */
+    min-height: 60px; /* Hauteur minimale pour afficher au moins 3 lignes */
+}
+
+textarea:focus {
+    border-color: #4caf50;
+    outline: none;
+}
+
+/* Boutons */
+button {
+    padding: 10px 20px;
+    margin: 10px 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+    background-color: #388e3c;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Liste des films */
+#directorModal-film-list,
+#yearModal-film-list,
+#themeModal-film-list,
+#actorModal-film-list,
+#musicianModal-film-list,
+#typeModal-film-list,
+#countryModal-film-list,
+#cinematographerModal-film-list,
+#editorModal-film-list,
+#infoModal-film-themes-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.directorModal-film-item,
+.yearModal-film-item,
+.themeModal-film-item,
+.actorModal-film-item,
+.musicianModal-film-item,
+.typeModal-film-item,
+.countryModal-film-item,
+.cinematographerModal-film-item,
+.editorModal-film-item,
+.infoModal-theme-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1f1f1f;
+    margin: 10px 0;
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #333;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.directorModal-film-item:hover,
+.yearModal-film-item:hover,
+.themeModal-film-item:hover,
+.actorModal-film-item:hover,
+.musicianModal-film-item:hover,
+.typeModal-film-item:hover,
+.countryModal-film-item:hover,
+.cinematographerModal-film-item:hover,
+.editorModal-film-item:hover,
+.infoModal-theme-item:hover,
+.theme-item:hover,
+.film-item:hover {
+    background-color: #333;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+#theme-list,
+#film-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espacement entre les éléments */
+    padding: 0;
+    list-style-type: none;
+}
+
+.theme-item,
+.film-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    padding: 10px;
+    width: calc(33.333% - 7px); /* Trois éléments par ligne avec l'espacement */
+    box-sizing: border-box;
+    margin: 0; /* Supprimer les marges pour éviter les écarts supplémentaires */
+    min-width: 300px;
+}
+
+/* Modales */
+.modal {
+    display: none;
+    justify-content: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    background-color: #1f1f1f;
+    margin: 2% auto;
+    height: fit-content;
+    margin-right: 20px;
+    margin-left: 20px;
+    padding: 10px 20px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    min-width: 800px;
+    color: #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    display: block;
+}
+
+.poster-content {
+    width: 35%;
+    justify-content: center;
+    max-width: 300px;
+    margin: 2% auto;
+    height: fit-content;
+    margin-right: 20px;
+    margin-left: 20px;
+    color: #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+#themeModal .modal-content,
+#directorModal .modal-content,
+#actorModal .modal-content,
+#musicianModal .modal-content,
+#typeModal .modal-content,
+#countryModal .modal-content,
+#cinematographerModal .modal-content,
+#editorModal .modal-content,
+#yearModal .modal-content,
+#searchModal .modal-content {
+    width: 40%;
+    min-width: 400px;
+}
+
+#editModal .modal-content {
+    width: 70%;
+    max-width: 500px;
+}
+
+#themeInfoModal .modal-content,
+#addThemeModal .modal-content {
+    width: 50%;
+    min-width: 500px;
+    margin: 6% auto;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Erreur */
+#error-message, 
+#infoModal-error-message {
+    color: #ff5252;
+    margin-top: 10px;
+}
+
+span.year:hover,
+span.director:hover,
+span.actor:hover,
+span.cinematographer:hover,
+span.element:hover {
+    font-weight: bold;
+}
+
+/* Bouton Supprimer */
+.delete-btn {
+    background-color: #f44336; /* Rouge */
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f; /* Rouge foncé au survol */
+}
+
+/* Bouton Rechercher */
+.search-btn {
+    background-color: #9e9e9e; /* Gris moyen */
+}
+
+.search-btn:hover {
+    background-color: #757575; /* Gris foncé au survol */
+}
+
+/* Bouton Ajouter un thème */
+.add-theme-btn {
+    background-color: #9e9e9e; /* Gris moyen */
+}
+
+.add-theme-btn:hover {
+    background-color: #757575; /* Gris foncé au survol */
+}
+
+.more-theme-btn,
+.delete-theme-btn {
+    background-color: transparent;
+    margin: 0 5px;
+    padding: 10px 10px;
+}
+
+.more-theme-btn:hover,
+.delete-theme-btn:hover {
+    background-color: #d32f2f;
+}
+
+.delete-film-btn {
+    background-color: transparent;
+    margin: 0;
+    padding: 10px 10px;
+}
+
+.delete-film-btn:hover {
+    background-color: #d32f2f;
+}
+
+#suggestion-container {
+    position: absolute;
+    width: calc(calc(100% - 22px) - 22px);
+    padding: 0;
+    margin: 0;
+    max-width: 1300px;
+    background-color: #333;
+    border: 1px solid #333;
+    border-radius: 8px;
+    display: none; /* Pour cacher les suggestions par défaut */
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+
+.suggestion-container {
+    position: relative;
+    width: calc(100% - 12px); /* Largeur égale à celle des champs de saisie */
+    padding: 0;
+    margin: 0;
+    background-color: #333;
+    border: 1px solid #333;
+    border-radius: 8px;
+    display: none; /* Pour cacher les suggestions par défaut */
+    z-index: 1000; /* Assurez-vous que les suggestions sont au-dessus des autres éléments */
+}
+
+/* Styling pour les éléments de suggestion */
+.director-suggestion-item,
+.film-suggestion-item,
+.theme-suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.director-suggestion-item:hover,
+.film-suggestion-item:hover,
+.theme-suggestion-item:hover {
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+
+.button-box {
+    display: flex;
+    height: 38px;
+}
+
+.editModal-add-element {
+    width: 38px;
+    height: 38px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.award-button {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin: 0 5px;
+    padding: 0;
+}
+
+.award-button img {
+    max-width: 80%;
+    max-height: 80%; 
+    margin: 0;
+    padding: 0;
+}
+
+.award-button:hover {
+    background-color: #757575; /* Changez la couleur au survol */
+}
+
+.edit-p {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    margin: 0;
+    margin-right: 5px;
+    display: inline-block;
+    margin-right: 10px; /* Ajoute un espace entre le texte et l'input */
+    white-space: nowrap;
+    align-items: center;
+}
+
+.edit-p-list {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    margin: 0;
+    margin-right: 5px;
+    min-width: 20%;
+    max-width: 75%;
+    display: inline-block;
+    margin-right: 10px; /* Ajoute un espace entre le texte et l'input */
+    white-space: normal;
+    align-items: center;
+}
+
+#infoModal-film-duration-type-country {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+#infoModal-film-name {
+    margin-bottom: 5px;
+}
+
+#editModal-film-name,
+#infoModal-film-name {
+    max-width: 100%; /* Définir une largeur maximale */
+    word-wrap: break-word; /* Permettre le passage à la ligne lorsque nécessaire */
+}
+
+.edit-container {
+    display: flex;
+    min-width: 20%;
+}
+
+
+.editModal-input-container {
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+button.rate-button {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 1px;
+    background-color: #333333;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button.rate-button.selected {
+    background-color: #CC5A71;
+}
+
+#infoModal-block-1 {
+    display: flex;
+    width: 100%;
+} 
+
+#infoModal-film-info-container {
+    width: 70%;
+}
+
+#infoModal-film-rate-container {
+    width: 30%;
+    max-width: 30%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+#editModal-button-container {
+    width: 100%;
+    display: flex;
+}
+
+#editModal-links-container {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+#editModal-general-button-container {
+    width: 50%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.add-link-button {
+    background-color: transparent;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 0;
+}
+
+.add-link-button:hover {
+    background-color: #d32f2f;
+}
+
+#infoModal-videoPlayer {
+    width: -webkit-fill-available;
+    border-radius: 8px;
+}
